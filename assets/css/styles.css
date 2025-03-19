@@ -1,0 +1,99 @@
+/* Scoped styles with red and white theme, dark gray text */
+.time-settings {
+    --primary-color: #d40612; /* Red */
+    --primary-hover: #a80510; /* Darker red for hover */
+    --bg-color: #ffffff; /* White background */
+    --text-color: #212529; /* Dark gray for text */
+    --animation-duration: 0.3s;
+}
+.time-settings .container {
+    max-width: 1200px;
+    padding: 2rem;
+    background-color: var(--bg-color);
+    min-height: calc(100vh - 100px); /* Adjust based on header/footer height */
+}
+.time-settings .page-header {
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    animation: slideInFromTop var(--animation-duration) ease-out;
+}
+.time-settings h1, .time-settings h2 {
+    color: var(--primary-color);
+}
+.time-settings .card {
+    background-color: var(--bg-color);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform var(--animation-duration), box-shadow var(--animation-duration);
+}
+.time-settings .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+.time-settings .card-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: #ffffff;
+    border-radius: 12px 12px 0 0;
+    padding: 1rem 1.5rem;
+}
+.time-settings .nav-pills .nav-link {
+    color: var(--primary-color);
+    background-color: #f8f8f8;
+    margin-right: 0.5rem;
+    border-radius: 8px;
+    transition: all var(--animation-duration);
+}
+.time-settings .nav-pills .nav-link.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+.time-settings .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    transition: all var(--animation-duration) ease;
+}
+.time-settings .btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+.time-settings .form-control {
+    border-color: #ced4da;
+    color: var(--text-color);
+}
+.time-settings .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(212, 6, 18, 0.25);
+}
+.time-settings .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.time-settings .form-check-label, .time-settings p {
+    color: var(--text-color);
+}
+.time-settings .alert {
+    border-radius: 8px;
+    animation: fadeIn var(--animation-duration) ease-in;
+}
+.time-settings .alert-success {
+    background-color: #f8f9fa;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+.time-settings .alert-warning {
+    background-color: #f8f9fa;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+@keyframes slideInFromTop {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

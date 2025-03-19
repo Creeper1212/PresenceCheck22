@@ -1,0 +1,157 @@
+/* Define CSS variables for maintainability */
+:root {
+    --navbar-bg: #ffee00; /* Yellow background */
+    --text-color: #333; /* Default text color */
+    --text-hover: #ff0000; /* Red on hover/active */
+    --link-bg-hover: rgba(255, 0, 0, 0.1); /* Red-tinted background on hover */
+    --link-color-active: #ff0000; /* Red for active/hover links */
+    --separator-color: rgba(0, 0, 0, 0.2); /* Separator in collapsed menu */
+    --shadow-color: rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+/* General Navbar Styles */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    max-width: 1300px;
+    margin: 0 auto;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Brand Styles */
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: var(--text-hover);
+    transform: scale(1.05);
+}
+
+.navbar-brand:focus {
+    outline: 2px solid var(--text-hover);
+    outline-offset: 4px;
+}
+
+.brand-text {
+    font-family: 'Arial', sans-serif; /* Or use a custom font */
+    letter-spacing: 1px;
+}
+
+.logo-spin {
+    transition: transform 0.5s ease;
+}
+
+.navbar-brand:hover .logo-spin {
+    transform: rotate(360deg);
+}
+
+/* Nav Link Styles */
+.navbar-nav .nav-link {
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    border-radius: 6px;
+    text-decoration: none;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link.active {
+    background-color: var(--link-bg-hover);
+    color: var(--link-color-active);
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--link-color-active);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 100%;
+    left: 0;
+}
+
+.navbar-nav .nav-link:focus {
+    outline: 2px solid var(--text-hover);
+    outline-offset: 2px;
+}
+
+/* Welcome Text */
+.welcome-text {
+    color: #666;
+    font-style: italic;
+    padding: 0.75rem 1.25rem;
+}
+
+/* Toggler Icon */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.navbar-toggler:hover {
+    transform: rotate(90deg);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 0, 0, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .navbar {
+        padding: 0.75rem;
+        border-radius: 0;
+    }
+
+    .navbar-nav {
+        padding: 1rem 0;
+        background-color: var(--navbar-bg);
+        border-radius: 8px;
+        margin-top: 0.5rem;
+    }
+
+    .navbar-nav .nav-item {
+        border-bottom: 1px solid var(--separator-color);
+    }
+
+    .navbar-nav .nav-item:last-child {
+        border-bottom: none;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+}

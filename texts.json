@@ -1,0 +1,10 @@
+{
+    "supported_languages": ["en", "de"],
+    "en": {
+      "welcome_message": "Welcome to the Dashboard u can submit your presence here"
+    },
+    "de": {
+      "welcome_message": "Willkommen im Dashboard. Hier kannst du deine Anwesenheit melden."
+    }
+  }
+  

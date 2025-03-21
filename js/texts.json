@@ -1,0 +1,19 @@
+{
+    "supported_languages":["en", "de"],
+    "welcome_text":{
+        "en": "Welcome to the Dashboard you can submit your presence here",
+        "de": "Willkommen auf dem Dashboard hier kannst du deine Anwesenheit melden."
+    },
+    "test_description":{
+        "en": "The current language of the website is English",
+        "dees": "El idioma actual del sitio web es español."
+    },
+    "change_language_text":{
+        "en": "From here you can change the language:",
+        "de": "Desde aquí puedes cambiar el idioma:"
+    },
+    "link_example":{
+        "en": "Link a page and keep the GET variable",
+        "de": "Vincular una página y mantener la variable GET"
+    }
+}

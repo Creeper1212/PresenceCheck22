@@ -2,10 +2,6 @@
 session_start();
 require '../Dashboard/config.php';
 
-// Initialize translation system
-require_once '../includes/Translation.php';
-$translator = new Translation(isset($_GET['lang']) ? $_GET['lang'] : null);
-
 // CSRF Protection
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -15,18 +11,18 @@ $error = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // CSRF protection check
     if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        $error = $translator->get('invalid_csrf');
+        $error = 'Ungültiges CSRF-Token.';
     } else {
         $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
         $password = filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW); // Don't sanitize passwords
 
         if (empty($username) || empty($password)) {
-            $error = $translator->get('username_and_password_required');
+            $error = 'Benutzername und Passwort sind erforderlich.';
         } else {
             $stmt = $userdb_conn->prepare("SELECT id, username, password, is_admin FROM users WHERE username = ?");
             if (!$stmt) {
                 error_log("Database error in login: " . $userdb_conn->error);
-                $error = $translator->get('system_error');
+                $error = 'Systemfehler.';
             } else {
                 $stmt->bind_param("s", $username);
                 $stmt->execute();
@@ -37,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if (password_verify($password, $user['password'])) {
                         // Regenerate session ID for security
                         session_regenerate_id(true);
-                        
+
                         // Set session variables
                         $_SESSION['username'] = $user['username'];
                         $_SESSION['user_id'] = $user['id'];
@@ -46,21 +42,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
                         $_SESSION['last_activity'] = time();
                         $_SESSION['created'] = time();
-                        
+
                         // Log successful login
                         error_log("User login: " . $user['username']);
-                        
+
                         header("Location: ../index.php");
                         exit;
                     } else {
                         // Log failed login attempt
                         error_log("Failed login attempt for username: $username");
-                        $error = $translator->get('invalid_credentials');
+                        $error = 'Ungültiger Benutzername oder Passwort.';
                     }
                 } else {
                     // Log unknown username
                     error_log("Login attempt with unknown username: $username");
-                    $error = $translator->get('user_not_found');
+                    $error = 'Benutzer nicht gefunden.';
                 }
                 $stmt->close();
             }
@@ -70,11 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $userdb_conn->close();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $translator->getCurrentLanguage(); ?>">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $translator->get('login_title'); ?></title>
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
@@ -131,14 +127,14 @@ $userdb_conn->close();
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         /* Language switcher styles */
         .language-switcher {
             position: absolute;
             top: 20px;
             right: 20px;
         }
-        
+
         .language-switcher .btn {
             padding: 0.375rem 0.75rem;
             border-radius: 0.25rem;
@@ -147,42 +143,33 @@ $userdb_conn->close();
     </style>
 </head>
 <body>
-    <!-- Language Switcher -->
-    <div class="language-switcher dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <?php echo ($translator->getCurrentLanguage() === 'en') ? 'English' : 'Deutsch'; ?>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-            <li><a class="dropdown-item" href="?lang=en">English</a></li>
-            <li><a class="dropdown-item" href="?lang=de">Deutsch</a></li>
-        </ul>
-    </div>
-
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card">
             <h2 class="card-title text-center mb-4 text-danger">
-                <i class="bi bi-lock me-2"></i><?php echo $translator->get('login_title'); ?>
+                <i class="bi bi-lock me-2"></i>Login
             </h2>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" placeholder="<?php echo $translator->get('username_label'); ?>" required autofocus>
-                    <label for="username"><?php echo $translator->get('username_label'); ?></label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Benutzername" required autofocus>
+                    <label for="username">Benutzername</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="<?php echo $translator->get('password_label'); ?>" required>
-                    <label for="password"><?php echo $translator->get('password_label'); ?></label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Passwort" required>
+                    <label for="password">Passwort</label>
                 </div>
                 <?php if (!empty($error)): ?>
                 <div class="alert alert-danger" role="alert">
                     <?php echo htmlspecialchars($error); ?>
                 </div>
                 <?php endif; ?>
-                <button type="submit" class="btn btn-danger w-100"><?php echo $translator->get('login_button'); ?></button>
+                <button type="submit" class="btn btn-danger w-100">Anmelden</button>
             </form>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+Constant FILTER_SANITIZE_STRING is deprecated in login.php on line 16
